@@ -5,6 +5,18 @@
         <%= image_form.hidden_field :id %>
         <%= image_fu image_form.object, '135x135#c' %>
         <% index = image_form.object_name.split('[').last.split(']').first.to_i %>
+          <label><span><%=t(".part")%></span>
+              <%= select_tag "#{f.object_name.demodulize}[images_attributes][#{index}][part_title]",
+                             options_from_collection_for_select(@page.parts, "title", "title", f.object.part_for_image_index(index)), :include_blank => true,
+                             :id => "page_part_title_#{index}",
+                             :class => 'page_part_title' %>
+          </label>
+          <label><span><%=t(".tag")%></span>
+          <%= text_field_tag "#{f.object_name.demodulize}[images_attributes][#{index}][tag]",
+                             f.object.tag_for_image_index(index),
+                             :id => "page_tag_#{index}",
+                             :class => 'page_tag' %>
+          </label>
         <%= hidden_field_tag "#{f.object_name.demodulize}[images_attributes][#{index}][image_page_id]", f.object.image_page_id_for_image_index(index) %>
         <% if Refinery::PageImages.captions %>
           <div class='textarea_wrapper_for_wym'>
@@ -28,6 +40,18 @@
                             :class => 'page_caption' %>
         </div>
       <% end %>
+        <label><span><%=t(".part")%></span>
+            <%= select_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][part_title]",
+                           options_from_collection_for_select(@page.parts, "title", "title"), :include_blank => true,
+                           :id => "page_part_title_#{f.object.images.size}",
+                           :class => 'page_part_title' %>
+        </label>
+        <label><span><%=t(".tag")%></span>
+            <%= text_field_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][tag]",
+                               '',
+                               :id => "page_tag_#{f.object.images.size}",
+                               :class => 'page_tag' %>
+        </label>
     </li>
   </ul>
 </div>

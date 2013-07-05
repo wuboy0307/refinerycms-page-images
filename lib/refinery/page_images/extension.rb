@@ -2,8 +2,12 @@ module Refinery
   module PageImages
     module Extension
       def has_many_page_images
-        has_many :image_pages, :as => :page, :class_name => 'Refinery::ImagePage', :order => 'position ASC'
-        has_many :images, :through => :image_pages, :class_name => 'Refinery::Image', :order => 'position ASC'
+        has_many :image_pages, :as => :page, :class_name => 'Refinery::ImagePage', :order => 'position ASC', :include => :image
+        has_many :images, :through => :image_pages, :class_name => 'Refinery::Image', :order => 'position ASC' do
+          def part(part_title="-1")
+            where("LOWER(#{Refinery::ImagePage.table_name}.part_title)=?", part_title.to_s.downcase)
+          end
+        end
         # accepts_nested_attributes_for MUST come before def images_attributes=
         # this is because images_attributes= overrides accepts_nested_attributes_for.
 
@@ -26,8 +30,8 @@ module Refinery
             image_pages_to_delete.destroy_all
 
             data.each do |i, image_data|
-              image_page_id, image_id, caption =
-                image_data.values_at('image_page_id', 'id', 'caption')
+              image_page_id, image_id, caption, tag, part_title =
+                image_data.values_at('image_page_id', 'id', 'caption', "tag", "part_title")
 
               next if image_id.blank?
 
@@ -39,6 +43,8 @@ module Refinery
 
               image_page.position = i
               image_page.caption = caption if Refinery::PageImages.captions
+              image_page.tag = tag
+              image_page.part_title = part_title
               image_page.save
             end
           end
@@ -57,6 +63,14 @@ module Refinery
 
         def image_page_id_for_image_index(index)
           self.image_pages[index].try(:id)
+        end
+
+        def tag_for_image_index(index)
+          self.image_pages[index].try(:tag).presence || ""
+        end
+
+        def part_for_image_index(index)
+          self.image_pages[index].try(:part_title).presence || ""
         end
       end
     end

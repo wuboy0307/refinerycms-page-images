@@ -35,6 +35,17 @@
     top: 3px;
   }
 }
+.images_field {
+  label {
+    margin-top: 0px;
+  }
+  .empty label {
+    display: none;
+  }
+  .page_tag {
+    width: 100px;
+  }
+}
 
 #content {
   ul.ui-sortable li {
