@@ -51,8 +51,6 @@ module Refinery
         end
 
         include Refinery::PageImages::Extension::InstanceMethods
-
-        attr_accessible :images_attributes
       end
 
       module InstanceMethods
