@@ -1,57 +1,69 @@
 <div class='wym_box field images_field'>
-  <ul id='page_images' class='clearfix'>
-    <%= f.fields_for :images do |image_form| %>
-      <li id='image_<%= image_form.object.id %>'>
-        <%= image_form.hidden_field :id %>
-        <%= image_fu image_form.object, '135x135#c' %>
-        <% index = image_form.object_name.split('[').last.split(']').first.to_i %>
-          <label><span><%=t(".part")%></span>
-              <%= select_tag "#{f.object_name.demodulize}[images_attributes][#{index}][part_title]",
-                             options_from_collection_for_select(@page.parts, "title", "title", f.object.part_for_image_index(index)), :include_blank => true,
-                             :id => "page_part_title_#{index}",
-                             :class => 'page_part_title' %>
-          </label>
-          <label><span><%=t(".tag")%></span>
-          <%= text_field_tag "#{f.object_name.demodulize}[images_attributes][#{index}][tag]",
-                             f.object.tag_for_image_index(index),
-                             :id => "page_tag_#{index}",
-                             :class => 'page_tag' %>
-          </label>
-        <%= hidden_field_tag "#{f.object_name.demodulize}[images_attributes][#{index}][image_page_id]", f.object.image_page_id_for_image_index(index) %>
-        <% if Refinery::PageImages.captions %>
-          <div class='textarea_wrapper_for_wym'>
-            <%= text_area_tag "#{f.object_name.demodulize}[images_attributes][#{index}][caption]",
-                              f.object.caption_for_image_index(index),
-                              :style => 'display: none',
-                              :id => "page_captions_#{index}",
-                              :class => 'page_caption' %>
-          </div>
+    <ul id='page_images' class='clearfix'>
+        <%= f.fields_for :images do |image_form| %>
+            <li id='image_<%= image_form.object.id %>'>
+                <%= image_form.hidden_field :id %>
+                <%= image_fu image_form.object, '135x135#c' %>
+                <% index = image_form.object_name.split('[').last.split(']').first.to_i %>
+                <label><span><%=t(".part")%></span>
+                    <%= select_tag "#{f.object_name.demodulize}[images_attributes][#{index}][part_title]",
+                                   options_from_collection_for_select(@page.parts, "title", "title", f.object.part_for_image_index(index)), :include_blank => true,
+                                   :id => "page_part_title_#{index}",
+                                   :class => 'page_part_title' %>
+                </label>
+                <label><span><%=t(".tag")%></span>
+                    <%= text_field_tag "#{f.object_name.demodulize}[images_attributes][#{index}][tag]",
+                                       f.object.tag_for_image_index(index),
+                                       :id => "page_tag_#{index}",
+                                       :class => 'page_tag' %>
+                </label>
+                <label><span><%=t(".link_url")%></span>
+                    <%= text_field_tag "#{f.object_name.demodulize}[images_attributes][#{index}][link_url]",
+                                       f.object.link_url_for_image_index(index),
+                                       :id => "page_link_url_#{index}",
+                                       :class => 'page_link_url' %>
+                </label>
+                <%= hidden_field_tag "#{f.object_name.demodulize}[images_attributes][#{index}][image_page_id]", f.object.image_page_id_for_image_index(index) %>
+                <% if Refinery::PageImages.captions %>
+                    <div class='textarea_wrapper_for_wym'>
+                        <%= text_area_tag "#{f.object_name.demodulize}[images_attributes][#{index}][caption]",
+                                          f.object.caption_for_image_index(index),
+                                          :style => 'display: none',
+                                          :id => "page_captions_#{index}",
+                                          :class => 'page_caption' %>
+                    </div>
+                <% end %>
+            </li>
         <% end %>
-      </li>
-    <% end %>
-    <li class='empty'>
-      <%= hidden_field_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][id]" %>
-      <% if Refinery::PageImages.captions %>
-        <div class='textarea_wrapper_for_wym'>
-          <%= text_area_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][caption]",
-                            '',
-                            :style => 'display: none',
-                            :id => "page_captions_#{f.object.images.size}",
-                            :class => 'page_caption' %>
-        </div>
-      <% end %>
-        <label><span><%=t(".part")%></span>
-            <%= select_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][part_title]",
-                           options_from_collection_for_select(@page.parts, "title", "title"), :include_blank => true,
-                           :id => "page_part_title_#{f.object.images.size}",
-                           :class => 'page_part_title' %>
-        </label>
-        <label><span><%=t(".tag")%></span>
-            <%= text_field_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][tag]",
-                               '',
-                               :id => "page_tag_#{f.object.images.size}",
-                               :class => 'page_tag' %>
-        </label>
-    </li>
-  </ul>
+        <li class='empty'>
+            <%= hidden_field_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][id]" %>
+            <% if Refinery::PageImages.captions %>
+                <div class='textarea_wrapper_for_wym'>
+                    <%= text_area_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][caption]",
+                                      '',
+                                      :style => 'display: none',
+                                      :id => "page_captions_#{f.object.images.size}",
+                                      :class => 'page_caption' %>
+                </div>
+            <% end %>
+            <label><span><%=t(".part")%></span>
+                <%= select_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][part_title]",
+                               options_from_collection_for_select(@page.parts, "title", "title"), :include_blank => true,
+                               :id => "page_part_title_#{f.object.images.size}",
+                               :class => 'page_part_title' %>
+            </label>
+            <label><span><%=t(".tag")%></span>
+                <%= text_field_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][tag]",
+                                   '',
+                                   :id => "page_tag_#{f.object.images.size}",
+                                   :class => 'page_tag' %>
+            </label>
+            <label><span><%=t(".link_url")%></span>
+                <%= text_field_tag "#{f.object_name.demodulize}[images_attributes][#{f.object.images.size}][link_url]",
+                                   '',
+                                   :id => "page_link_url_#{f.object.images.size}",
+                                   :class => 'page_link_url' %>
+            </label>
+        </li>
+    </ul>
 </div>
