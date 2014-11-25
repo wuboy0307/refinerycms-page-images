@@ -9,6 +9,13 @@ module Refinery
 
       engine_name :refinery_page_images
 
+      def self.activate
+        Dir.glob(File.join(Refinery::PageImages::Engine.root, 'app/**/*_decorator*.rb')) do |c|
+          Rails.configuration.cache_classes ? require(c) : load(c)
+        end
+      end
+
+
       def self.register(tab)
         tab.name = ::I18n.t(:'refinery.plugins.refinery_page_images.tab_name')
         tab.partial = "/refinery/admin/pages/tabs/images"
@@ -32,14 +39,12 @@ module Refinery
         end
       end
 
-      config.to_prepare do
-        Refinery::PageImages.attach!
-      end
-
       config.after_initialize do
         initialize_tabs!
         Refinery.register_engine Refinery::PageImages
       end
+
+      config.to_prepare &method(:activate).to_proc
     end
   end
 end

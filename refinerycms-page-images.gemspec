@@ -8,11 +8,14 @@ Gem::Specification.new do |s|
   s.authors           = ['Philip Arndt', 'David Jones']
   s.require_paths     = %w(lib)
   s.license            = %q{MIT}
+  s.required_ruby_version = '>= 1.9.3'
 
-  s.files             = `git ls-files`.split("\n")
-  s.test_files        = `git ls-files -- spec/*`.split("\n")
+  #s.files             = `git ls-files`.split("\n")
+  #s.test_files        = `git ls-files -- spec/*`.split("\n")
+  s.require_path = 'lib'
+  s.requirements << 'none'
 
+  s.add_dependency    'refinerycms-images'
   s.add_dependency    'refinerycms-pages', '~> 3.0.0'
-  s.add_dependency    'decorators',        '~> 1.0.0'
   s.add_dependency    'globalize',         '~> 4.0'
 end
