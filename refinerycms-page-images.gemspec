@@ -17,5 +17,4 @@ Gem::Specification.new do |s|
 
   s.add_dependency    'refinerycms-images'
   s.add_dependency    'refinerycms-pages', '~> 3.0.0'
-  s.add_dependency    'globalize',         '~> 4.0'
 end

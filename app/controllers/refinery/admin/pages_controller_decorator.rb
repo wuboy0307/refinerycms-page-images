@@ -18,8 +18,13 @@ module Refinery
 
         end
 
-        # Swap out the default page_params method with our new one
-        alias_method_chain :page_params, :page_image_params
+        def page_image_params
+          params.require(:page).permit(
+              :browser_title, :draft, :link_url, :menu_title, :meta_description,
+              :parent_id, :skip_to_first_child, :show_in_menu, :title, :view_template,
+              :layout_template, :custom_slug, parts_attributes: [:id, :title, :body, :position]
+          )
+        end
       end
     end
   end
