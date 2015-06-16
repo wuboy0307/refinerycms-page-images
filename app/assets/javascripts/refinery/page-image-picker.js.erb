@@ -6,7 +6,7 @@ var image_added; // Global callback
   $(document).ready(function(){
     var picker = $('#page_image_picker');
     input_type = picker.data('input-type');
-    wysiwyg_enabled = input_type == 'wym';
+    wysiwyg_enabled = false;
 
     $('#custom_images_tab a').click(function(){
       if (!picker.data('size-applied') && wysiwyg_enabled){
